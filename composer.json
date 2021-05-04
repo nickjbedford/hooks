@@ -1,0 +1,34 @@
+{
+	"name": "nickjbedford/hooks",
+	"description": "Hooks is a small library that provided hookable actions and filters, similar to WordPress. This can be used in any PHP 7.4+ project.",
+	"minimum-stability": "stable",
+	"type": "library",
+    "keywords": [
+		"hooks", "filters", "actions"
+	],
+    "homepage": "https://github.com/nickjbedford/hooks",
+    "license": "MIT",
+	"authors": [
+		{
+			"name": "Nick Bedford",
+			"email": "email@nickbedford.com",
+            "homepage": "https://github.com/nickjbedford",
+            "role": "Developer"
+		}
+	],
+    "autoload": {
+        "psr-4": {
+            "YetAnother\\": "src/"
+        },
+		"files": [
+			"src/helpers.php"
+		]
+    },
+	"require": {
+		"php": ">=7.4",
+		"ext-json": "*"
+	},
+	"require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}
