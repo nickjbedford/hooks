@@ -51,10 +51,11 @@
 		 * @param string $name The name of the hook.
 		 * @param mixed $returnValue The value to wait for and return immediately. This is compared strictly.
 		 * @param array $parameters The parameters, if any, to pass to each function.
+		 * @return bool True if the specified value was returned by a function, false otherwise.
 		 */
-		function hook_run_until(string $name, mixed $returnValue, ...$parameters): void
+		function hook_run_until(string $name, mixed $returnValue, ...$parameters): bool
 		{
-			Hook::get($name)->executeUntil($returnValue, $parameters);
+			return Hook::get($name)->executeUntil($returnValue, $parameters);
 		}
 	}
 
