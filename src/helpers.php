@@ -11,7 +11,7 @@
 		 * @param int $priority Optional. The priority to execute the function at.
 		 * @param string|null $name Optional. The name for the registered function in order to remove it later.
 		 */
-		function hook_add(string $hook, $callable, int $priority = 10, ?string $name = null): HookFunction
+		function hook_add(string $hook, callable|Closure $callable, int $priority = 10, ?string $name = null): HookFunction
 		{
 			return Hook::get($hook)->add($callable, $priority, $name);
 		}
