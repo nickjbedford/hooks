@@ -44,6 +44,20 @@
 		}
 	}
 
+	if (!function_exists('hook_run_until'))
+	{
+		/**
+		 * Executes a hook with parameters.
+		 * @param string $name The name of the hook.
+		 * @param mixed $returnValue The value to wait for and return immediately. This is compared strictly.
+		 * @param array $parameters The parameters, if any, to pass to each function.
+		 */
+		function hook_run_until(string $name, mixed $returnValue, ...$parameters): void
+		{
+			Hook::get($name)->executeUntil($returnValue, $parameters);
+		}
+	}
+
 	if (!function_exists('hook_filter'))
 	{
 		/**

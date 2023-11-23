@@ -84,4 +84,31 @@
 			self::assertEquals('123', $result);
 			self::assertEquals(join(',', ['Hello', 'World']), join(',', $added));
 		}
+		
+		function testHookRunsUntilFalseIsReceived()
+		{
+			$added = [];
+			$a = function () use (&$added)
+			{
+				return $added[] = 'Hello';
+			};
+			$b = function () use (&$added)
+			{
+				return $added[] = 'World';
+			};
+			$c = fn() => '123';
+			$d = function () use (&$added)
+			{
+				return $added[] = '!';
+			};
+			
+			hook_add('hook', $a, 0);
+			hook_add('hook', $b, 1);
+			hook_add('hook', $c, 2);
+			hook_add('hook', $d, 3);
+			
+			hook_filter_until('hook', 0, '123');
+			
+			self::assertEquals(join(',', ['Hello', 'World']), join(',', $added));
+		}
 	}

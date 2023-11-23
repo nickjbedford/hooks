@@ -162,6 +162,24 @@
 		}
 
 		/**
+		 * Executes every function in the hook until a specific value is returned.
+		 * @param mixed $returnValue The value to wait for and return immediately. This is compared strictly.
+		 * @param array $parameters The parameters, if any, to pass to each function.
+		 */
+		public function executeUntil(mixed $returnValue, array $parameters): void
+		{
+			foreach($this->functions as $items)
+			{
+				foreach($items as $item)
+				{
+					/** @var HookFunction $item */
+					if ($item->call($parameters) === $returnValue)
+						return;
+				}
+			}
+		}
+
+		/**
 		 * Executes every function in the hook.
 	     * @param mixed $initial The initial value to filter.
 		 * @param array $parameters The parameters, if any, to pass to each function.
