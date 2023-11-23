@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="All Tests" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
-    <TestRunner class="Hook\HookTests" configuration_file="$PROJECT_DIR$/phpunit.xml" file="$PROJECT_DIR$/tests/Hook/HookTests.php" scope="XML" use_alternative_configuration_file="true" />
+    <TestRunner class="Hook\HookTests" configuration_file="$PROJECT_DIR$/phpunit.xml" file="$PROJECT_DIR$/tests/Hook/HookTests.php" scope="XML" />
     <method v="2" />
   </configuration>
 </component>

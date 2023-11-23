@@ -6,6 +6,12 @@
 	
 	class HookTests extends TestCase
 	{
+		function setUp(): void
+		{
+			parent::setUp();
+			Hook::resetAll();
+		}
+		
 		function testHookIsRegisteredThenRemoved()
 		{
 			$hook = Hook::get('hook');
@@ -49,5 +55,33 @@
 			$result = hook_filter('filter', 2, 5);
 			
 			self::assertEquals('355', $result);
+		}
+		
+		function testFiltersRunUntilFalseIsReceived()
+		{
+			$added = [];
+			$a = function () use (&$added)
+			{
+				return $added[] = 'Hello';
+			};
+			$b = function () use (&$added)
+			{
+				return $added[] = 'World';
+			};
+			$c = fn() => '123';
+			$d = function () use (&$added)
+			{
+				return $added[] = '!';
+			};
+			
+			hook_add('filter', $a, 0);
+			hook_add('filter', $b, 1);
+			hook_add('filter', $c, 2);
+			hook_add('filter', $d, 3);
+			
+			$result = hook_filter_until('filter', 0, '123');
+			
+			self::assertEquals('123', $result);
+			self::assertEquals(join(',', ['Hello', 'World']), join(',', $added));
 		}
 	}

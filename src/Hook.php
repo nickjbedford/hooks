@@ -20,6 +20,24 @@
 		private string $name;
 		
 		/**
+		 * Gets all of the hooks whether or not they contain any callbacks.
+		 * @return Hook[]
+		 */
+		public static function getAll(): array
+		{
+			return self::$hooks;
+		}
+		
+		/**
+		 * Resets
+		 * @return void
+		 */
+		public static function resetAll(): void
+		{
+			self::$hooks = [];
+		}
+		
+		/**
 		 * Initialises a new hook.
 		 * @param string $name The name of the hook.
 		 */
@@ -56,6 +74,11 @@
 			return $this->functions;
 		}
 		
+		public function reset(): void
+		{
+			$this->functions = [];
+		}
+		
 		/**
 		 * Registers a function in the hook.
 		 * @param callable|Closure $callable The function to call.
@@ -63,7 +86,7 @@
 		 * @param string|null $name Optional. The name for the registered function in order to remove it later.
 		 * @return HookFunction
 		 */
-		public function add($callable, int $priority = 10, ?string $name = null): HookFunction
+		public function add(callable|Closure $callable, int $priority = 10, ?string $name = null): HookFunction
 		{
 			$this->functions[$priority] ??= [];
 			$this->functions[$priority][] = $function = new HookFunction($name, $callable);
@@ -117,7 +140,7 @@
 		 * Executes every function in the hook.
 		 * @param array $parameters The parameters, if any, to pass to each function.
 		 */
-		public function run(...$parameters)
+		public function run(...$parameters): void
 		{
 			$this->execute($parameters);
 		}
@@ -126,7 +149,7 @@
 		 * Executes every function in the hook.
 		 * @param array $parameters The parameters, if any, to pass to each function.
 		 */
-		public function execute(array $parameters)
+		public function execute(array $parameters): void
 		{
 			foreach($this->functions as $items)
 			{
@@ -144,7 +167,7 @@
 		 * @param array $parameters The parameters, if any, to pass to each function.
 		 * @return mixed
 		 */
-		public function filter($initial, ...$parameters)
+		public function filter(mixed $initial, ...$parameters): mixed
 		{
 			return $this->executeFilter($initial, $parameters);
 		}
@@ -155,7 +178,7 @@
 		 * @param array $parameters The parameters, if any, to pass to each function.
 		 * @return mixed
 		 */
-		public function executeFilter($initial, array $parameters)
+		public function executeFilter(mixed $initial, array $parameters): mixed
 		{
 			foreach($this->functions as $items)
 			{
@@ -163,6 +186,28 @@
 				{
 					/** @var HookFunction $item */
 					$initial = $item->call(array_merge([ $initial ], $parameters));
+				}
+			}
+			return $initial;
+		}
+		
+		/**
+		 * Executes every function in the hook.
+		 * @param mixed $initial The initial value to filter.
+		 * @param mixed $value The value to wait for and return immediately. This is compared strictly.
+		 * @param array $parameters The parameters, if any, to pass to each function.
+		 * @return mixed
+		 */
+		public function executeFilterUntil(mixed $initial, mixed $value, array $parameters): mixed
+		{
+			foreach($this->functions as $items)
+			{
+				foreach($items as $item)
+				{
+					/** @var HookFunction $item */
+					$initial = $item->call(array_merge([ $initial ], $parameters));
+					if ($initial === $value)
+						return $value;
 				}
 			}
 			return $initial;

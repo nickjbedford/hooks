@@ -19,7 +19,7 @@
 		 * @param string|null $name The name of the function.
 		 * @param callable|Closure $callback The function to call.
 		 */
-		public function __construct(?string $name, $callback)
+		public function __construct(?string $name, callable|Closure $callback)
 		{
 			$this->name = $name;
 			$this->function = $callback;
@@ -30,7 +30,7 @@
 		 * @param array $parameters
 		 * @return false|mixed
 		 */
-		public function call(array $parameters)
+		public function call(array $parameters): mixed
 		{
 			return call_user_func_array($this->function, $parameters);
 		}

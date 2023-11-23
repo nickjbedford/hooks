@@ -38,7 +38,7 @@
 		 * @param string $name The name of the hook.
 		 * @param array $parameters The parameters, if any, to pass to each function.
 		 */
-		function hook_run(string $name, ...$parameters)
+		function hook_run(string $name, ...$parameters): void
 		{
 			Hook::get($name)->execute($parameters);
 		}
@@ -53,8 +53,26 @@
 		 * @param array $parameters The parameters, if any, to pass to each function.
 		 * @return mixed
 		 */
-		function hook_filter(string $name, $initial, ...$parameters)
+		function hook_filter(string $name, mixed $initial, ...$parameters): mixed
 		{
 			return Hook::get($name)->executeFilter($initial, $parameters);
+		}
+	}
+
+	if (!function_exists('hook_filter_until'))
+	{
+		/**
+		 * Executes a hook as a filter, passing an initial value and optional parameters and returning the result.
+		 * If the specified value is returned by a function, the value is returned immediately and no further filter
+		 * callbacks are executed.
+		 * @param string $name The name of the hook.
+		 * @param mixed $initial The initial value to filter.
+		 * @param mixed $value The value to wait for and return immediately. This is compared strictly.
+		 * @param array $parameters The parameters, if any, to pass to each function.
+		 * @return mixed
+		 */
+		function hook_filter_until(string $name, mixed $initial, mixed $value, ...$parameters): mixed
+		{
+			return Hook::get($name)->executeFilterUntil($initial, $value, $parameters);
 		}
 	}
