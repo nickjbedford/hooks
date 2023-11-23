@@ -107,8 +107,15 @@
 			hook_add('hook', $c, 2);
 			hook_add('hook', $d, 3);
 			
-			hook_filter_until('hook', 0, '123');
+			self::assertTrue(hook_run_until('hook', '123'));
+			self::assertEquals(join(',', ['Hello', 'World']), join(',', $added));
 			
+			Hook::get('hook')->reset();
+			hook_add('hook', $a, 0);
+			hook_add('hook', $b, 1);
+			
+			$added = [];
+			self::assertFalse(hook_run_until('hook', '123'));
 			self::assertEquals(join(',', ['Hello', 'World']), join(',', $added));
 		}
 	}
