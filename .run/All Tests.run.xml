@@ -1,5 +1,10 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="All Tests" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+    <CommandLine>
+      <PhpTestInterpreterSettings>
+        <option name="interpreterName" value="PHP 8.3" />
+      </PhpTestInterpreterSettings>
+    </CommandLine>
     <TestRunner class="Hook\HookTests" configuration_file="$PROJECT_DIR$/phpunit.xml" file="$PROJECT_DIR$/tests/Hook/HookTests.php" scope="XML" />
     <method v="2" />
   </configuration>

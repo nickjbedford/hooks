@@ -118,4 +118,19 @@
 			self::assertFalse(hook_run_until('hook', '123'));
 			self::assertEquals(join(',', ['Hello', 'World']), join(',', $added));
 		}
+		
+		function testHookFirstResultHasNonNullValue()
+		{
+			hook_add('firstResult', fn() => null, 0);
+			hook_add('firstResult', fn() => 'Hello', 1);
+			hook_add('firstResult', fn() => null, 2);
+			
+			self::assertEquals('Hello', hook_first_result('firstResult'));
+			
+			hook_add('firstResult2', fn($v) => null, 0);
+			hook_add('firstResult2', fn($v) => $v, 1);
+			hook_add('firstResult2', fn($v) => null, 2);
+			
+			self::assertEquals('GOODBYE', hook_first_result('firstResult2', 'GOODBYE'));
+		}
 	}

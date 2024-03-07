@@ -191,6 +191,25 @@
 		{
 			return $this->executeFilter($initial, $parameters);
 		}
+		
+		/**
+		 * Executes every function in the hook until the first non-null result is returned.
+		 * @param mixed ...$parameters
+		 * @return mixed
+		 */
+		public function firstResult(...$parameters): mixed
+		{
+			foreach($this->functions as $items)
+			{
+				foreach($items as $item)
+				{
+					/** @var HookFunction $item */
+					if (($value = $item->call($parameters)) !== null)
+						return $value;
+				}
+			}
+			return null;
+		}
 
 		/**
 		 * Executes every function in the hook.

@@ -83,11 +83,25 @@
 		 * @param string $name The name of the hook.
 		 * @param mixed $initial The initial value to filter.
 		 * @param mixed $value The value to wait for and return immediately. This is compared strictly.
-		 * @param array $parameters The parameters, if any, to pass to each function.
+		 * @param array ...$parameters The parameters, if any, to pass to each function.
 		 * @return mixed
 		 */
 		function hook_filter_until(string $name, mixed $initial, mixed $value, ...$parameters): mixed
 		{
 			return Hook::get($name)->executeFilterUntil($initial, $value, $parameters);
+		}
+	}
+
+	if (!function_exists('hook_first_result'))
+	{
+		/**
+		 * Executes every function in the hook until the first non-null result is returned.
+		 * @param string $name The name of the hook.
+		 * @param mixed ...$parameters The parameters, if any, to pass to each function.
+		 * @return mixed
+		 */
+		function hook_first_result(string $name, ...$parameters): mixed
+		{
+			return Hook::get($name)->firstResult(...$parameters);
 		}
 	}
