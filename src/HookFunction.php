@@ -12,7 +12,7 @@
 		public ?string $name;
 		
 		/** @var callable|Closure $function Specifies the function to call. */
-		public $function;
+		public mixed $function;
 		
 		/**
 		 * HookFunction constructor.
@@ -26,7 +26,7 @@
 		}
 		
 		/**
-		 * Calls the hook function.
+		 * Calls the hook function with the provided parameters passed as an array.
 		 * @param array $parameters
 		 * @return false|mixed
 		 */

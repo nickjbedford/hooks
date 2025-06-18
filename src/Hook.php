@@ -16,7 +16,9 @@
 		/** @var self[] $hooks */
 		private static array $hooks = [];
 		
+		/** @var array<int, list<HookFunction>> $functions */
 		private array $functions = [];
+		
 		private string $name;
 		
 		/**
@@ -57,7 +59,7 @@
 		}
 		
 		/**
-		 * Gets the name of the hook.
+		 * Returns the name of the hook.
 		 * @return string
 		 */
 		public function name(): string
@@ -66,7 +68,7 @@
 		}
 		
 		/**
-		 * Gets the functions registered in the hook.
+		 * Returns the functions registered in the hook.
 		 * @return array
 		 */
 		public function getFunctions(): array
@@ -74,6 +76,10 @@
 			return $this->functions;
 		}
 		
+		/**
+		 * Resets the hook, removing all functions registered in it.
+		 * @return void
+		 */
 		public function reset(): void
 		{
 			$this->functions = [];
@@ -109,7 +115,6 @@
 				
 				foreach($list as $index=>&$item)
 				{
-					/** @var HookFunction $item */
 					if ($item->name === $name)
 						unset($list[$index]);
 				}
@@ -128,7 +133,6 @@
 			{
 				foreach($list as $index=>&$item)
 				{
-					/** @var HookFunction $item */
 					if ($item === $function)
 						unset($list[$index]);
 				}
@@ -155,7 +159,6 @@
 			{
 				foreach($items as $item)
 				{
-					/** @var HookFunction $item */
 					$item->call($parameters);
 				}
 			}
@@ -173,7 +176,6 @@
 			{
 				foreach($items as $item)
 				{
-					/** @var HookFunction $item */
 					if ($item->call($parameters) === $returnValue)
 						return true;
 				}
@@ -203,7 +205,6 @@
 			{
 				foreach($items as $item)
 				{
-					/** @var HookFunction $item */
 					if (($value = $item->call($parameters)) !== null)
 						return $value;
 				}
@@ -223,7 +224,6 @@
 			{
 				foreach($items as $item)
 				{
-					/** @var HookFunction $item */
 					$initial = $item->call(array_merge([ $initial ], $parameters));
 				}
 			}
@@ -243,7 +243,6 @@
 			{
 				foreach($items as $item)
 				{
-					/** @var HookFunction $item */
 					$initial = $item->call(array_merge([ $initial ], $parameters));
 					if ($initial === $value)
 						return $value;
