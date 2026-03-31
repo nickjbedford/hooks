@@ -63,10 +63,11 @@
 	{
 		/**
 		 * Executes a hook as a filter, passing an initial value and optional parameters and returning the result.
+		 * @template TInitial
 		 * @param string $name The name of the hook.
-		 * @param mixed $initial The initial value to filter.
+		 * @param TInitial $initial The initial value to filter.
 		 * @param array $parameters The parameters, if any, to pass to each function.
-		 * @return mixed
+		 * @return TInitial
 		 */
 		function hook_filter(string $name, mixed $initial, ...$parameters): mixed
 		{
@@ -80,11 +81,12 @@
 		 * Executes a hook as a filter, passing an initial value and optional parameters and returning the result.
 		 * If the specified value is returned by a function, the value is returned immediately and no further filter
 		 * callbacks are executed.
+		 * @template TInitial
 		 * @param string $name The name of the hook.
-		 * @param mixed $initial The initial value to filter.
-		 * @param mixed $value The value to wait for and return immediately. This is compared strictly.
+		 * @param TInitial $initial The initial value to filter.
+		 * @param TInitial $value The value to wait for and return immediately. This is compared strictly.
 		 * @param array ...$parameters The parameters, if any, to pass to each function.
-		 * @return mixed
+		 * @return TInitial
 		 */
 		function hook_filter_until(string $name, mixed $initial, mixed $value, ...$parameters): mixed
 		{

@@ -184,10 +184,12 @@
 		}
 
 		/**
-		 * Executes every function in the hook.
-	     * @param mixed $initial The initial value to filter.
+		 * Passes the initial value through each function in the hook,
+		 * with the output of one function becoming the input of the next.
+		 * @template TInitial
+	     * @param TInitial $initial The initial value to filter.
 		 * @param array $parameters The parameters, if any, to pass to each function.
-		 * @return mixed
+		 * @return TInitial The final filtered value after all functions have been executed.
 		 */
 		public function filter(mixed $initial, ...$parameters): mixed
 		{
@@ -214,9 +216,10 @@
 
 		/**
 		 * Executes every function in the hook.
-	     * @param mixed $initial The initial value to filter.
+		 * @template TInitial
+	     * @param TInitial $initial The initial value to filter.
 		 * @param array $parameters The parameters, if any, to pass to each function.
-		 * @return mixed
+		 * @return TInitial
 		 */
 		public function executeFilter(mixed $initial, array $parameters): mixed
 		{
@@ -231,11 +234,12 @@
 		}
 		
 		/**
-		 * Executes every function in the hook.
-		 * @param mixed $initial The initial value to filter.
-		 * @param mixed $value The value to wait for and return immediately. This is compared strictly.
+		 * Executes every function in the hook until the resulting value is equal to a specific value.
+		 * @template TInitial
+		 * @param TInitial $initial The initial value to filter.
+		 * @param TInitial $value The value to wait for and return immediately. This is compared strictly.
 		 * @param array $parameters The parameters, if any, to pass to each function.
-		 * @return mixed
+		 * @return TInitial
 		 */
 		public function executeFilterUntil(mixed $initial, mixed $value, array $parameters): mixed
 		{
